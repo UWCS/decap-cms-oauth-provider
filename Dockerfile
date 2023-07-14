@@ -1,19 +1,36 @@
-FROM python:3.7
+FROM python:3.10 AS builder
+
+RUN pip install --user pipenv
 
 ENV RUN_HOST="0.0.0.0"
 ENV RUN_PORT=80
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Tell pipenv to create venv in the current directory
+ENV PIPENV_VENV_IN_PROJECT=1
 
-COPY requirements.txt /usr/src/app/
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-RUN pip3 install --no-cache-dir -r requirements.txt 
+# only copy in lockfile - install from locked deps
+COPY Pipfile.lock /app/Pipfile.lock
 
-COPY . /usr/src/app
+WORKDIR /app
 
-EXPOSE 80
+RUN /root/.local/bin/pipenv sync
 
-ENTRYPOINT ["python3"]
+FROM python:3.10-slim AS runtime
 
-CMD ["main.py"]
+WORKDIR /app
+
+# copy venv into runtime
+COPY --from=builder /app/.venv/ /app/.venv/
+COPY --from=builder /app/.version /app/.version
+
+
+# add venv to path
+ENV PATH="/app/.venv/bin:$PATH"
+
+# copy in everything
+COPY . /app
+
+CMD [ "python", "main.py" ] 
