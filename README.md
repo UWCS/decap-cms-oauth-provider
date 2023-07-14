@@ -8,22 +8,11 @@ Other implementations
 
 ## 1) Install
 
-For mac and linux
 ```
-git clone https://github.com/davidejones/netlify-cms-oauth-provider-python.git
-cd netlify-cms-oauth-provider-python
-python -m venv /path/to/new/virtual/environment
-source /path/to/new/virtual/environment/bin/activate
-pip install -r requirements.txt
-```
-
-For windows
-```
-git clone https://github.com/davidejones/netlify-cms-oauth-provider-python.git
-cd netlify-cms-oauth-provider-python
-python -m venv /path/to/new/virtual/environment
-C:\path\to\new\virtual\environment\bin\activate.bat
-pip install -r requirements.txt
+git clone https://github.com/ericthelemur/decap-cms-oauth-provider.git
+cd decap-cms-oauth-provider
+python -m pip install pipenv
+pipenv install
 ```
 
 ## 2) Config
@@ -40,6 +29,9 @@ OAUTH_CLIENT_SECRET=pampadympapampadympapampadympa
 REDIRECT_URL=https://your.server.com/callback
 GIT_HOSTNAME=https://github.website.com
 SSL_ENABLED=1
+
+RUN_HOST=127.0.0.1
+RUN_PORT=5000
 ```
 
 **Client ID & Client Secret:**
@@ -65,4 +57,4 @@ backend:
 ## 3) Run it
 With your virtual environment activated run the server as follows
 
-`python main.py`
+`pipenv run python main.py`
