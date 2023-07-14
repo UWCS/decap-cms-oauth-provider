@@ -24,8 +24,6 @@ WORKDIR /app
 
 # copy venv into runtime
 COPY --from=builder /app/.venv/ /app/.venv/
-COPY --from=builder /app/.version /app/.version
-
 
 # add venv to path
 ENV PATH="/app/.venv/bin:$PATH"
