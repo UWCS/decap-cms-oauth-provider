@@ -31,4 +31,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 # copy in everything
 COPY . /app
 
-CMD [ "python", "main.py" ] 
+CMD ["./.venv/bin/gunicorn", "--chdir", "/app", "main:app",  "-w", "4", "-b", "$RUN_HOST:$RUN_PORT"]
