@@ -2,8 +2,6 @@ FROM python:3.10 AS builder
 
 RUN pip install --user pipenv
 
-ENV RUN_HOST="0.0.0.0"
-ENV RUN_PORT=80
 
 # Tell pipenv to create venv in the current directory
 ENV PIPENV_VENV_IN_PROJECT=1
@@ -28,7 +26,10 @@ COPY --from=builder /app/.venv/ /app/.venv/
 # add venv to path
 ENV PATH="/app/.venv/bin:$PATH"
 
+ENV RUN_HOST="0.0.0.0"
+ENV RUN_PORT=80
+
 # copy in everything
 COPY . /app
 
-CMD ["./.venv/bin/gunicorn", "--chdir", "/app", "main:app",  "-w", "4", "-b", "$RUN_HOST:$RUN_PORT"]
+CMD gunicorn --chdir /app main:app -b ${RUN_HOST}:${RUN_PORT}
