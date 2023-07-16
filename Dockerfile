@@ -29,6 +29,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV RUN_HOST="0.0.0.0"
 ENV RUN_PORT=80
 
+EXPOSE 80
+
 # copy in everything
 COPY . /app
 
