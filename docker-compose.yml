@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  web-auth:
+    build: .
+    ports: 
+      - 80:80
