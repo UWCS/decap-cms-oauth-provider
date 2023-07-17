@@ -10,6 +10,10 @@ app = Flask(__name__)
 load_dotenv(join(dirname(__file__), '.env'))
 client_id = os.environ.get("OAUTH_CLIENT_ID")
 client_secret = os.environ.get("OAUTH_CLIENT_SECRET")
+
+if not client_id or not client_secret:
+    raise AttributeError("Client ID or Client Secret env vars not set correctly")
+
 authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_host = os.environ.get('GIT_HOSTNAME', 'https://github.com')
 token_path = os.environ.get('OAUTH_TOKEN_PATH', '/login/oauth/access_token')
